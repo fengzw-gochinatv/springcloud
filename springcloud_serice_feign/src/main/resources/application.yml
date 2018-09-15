@@ -1,0 +1,40 @@
+server:
+  port: 8765
+
+eureka:
+  client:
+  service-url:
+      default-zone: http://localhost:8761/eureka/
+spring:
+  application:
+    name: service-feign
+
+feign:
+  hystrix:
+    enabled: true
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 1024
+    response:
+      enabled: true
+
+ribbon:
+  ReadTimeout: 10000  #默认值2000 如果hystrix没开启，如果第三方超时》readtimeout，则直接报readtimeout
+  ConnectTimeout: 2000 #默认值5000
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 8000 #默认值1000  timeoutInMilliseconds应该》ribbon.readtimeout。如果开启了hystrix，第三方返回时间》timeoutInMilliseconds 则直接熔断，跟ribbon配置的ConnectTimeout和readtimeout无关
+
+
+
+
+
+

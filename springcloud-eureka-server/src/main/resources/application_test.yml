@@ -1,0 +1,41 @@
+server:
+  port: 8761
+
+#服务注册中心实例的主机名
+eureka:
+  instance:
+    hostname: localhost
+
+  client:
+    register-with-eureka: false   #是否向服务注册中心注册自己
+    fetch-registry: false         #是否检索服务
+    service-url:
+      default-zone: http://{eureka.instance.hostname}:{server.port}/eureka/
+
+---
+spring:
+  profiles: peer1                                 # 指定profile=peer1
+  application:
+    name: Eureka-Server
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: peer1                               # 指定当profile=peer1时，主机名
+  client:
+    serviceUrl:
+      defaultZone: http://peer2:8769/eureka/      # 将自己注册到peer2这个Eureka上面去
+
+---
+spring:
+  profiles: peer2
+  application:
+    name: Eureka-Server
+server:
+  port: 8769
+eureka:
+  instance:
+    hostname: peer2
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:8761/eureka/  # 服务注册地址，将自己注册到peer2上去

@@ -1,0 +1,17 @@
+#注意：此处的配置文件需要放在bootstrap.properties或者是bootstrap.yml文件中
+# 因为config的相关配置会先于application.properties，而bootstrap.properties的加载也是先于application.properties
+server:
+  port: 8889
+spring:
+  application:
+    name: hccloud-springcloud-config    # 必须与配置文件的前缀一致，例如此处我们的配置文件名是configserver-dev.properties,则此处需配置成configserver
+  cloud:
+    config:
+      uri: http://localhost:8888/hccloud-springcloud-config #配置spring cloud config服务端的url
+      profile:                      # 指定profile
+      label: master                     # 指定gitlab仓库的分支
+
+
+management:
+  security:
+    enabled: false
